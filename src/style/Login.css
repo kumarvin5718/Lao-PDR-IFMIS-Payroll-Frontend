@@ -1,0 +1,25 @@
+
+.Login-button {
+  background-color: #0d3b66; 
+  color: #fff; 
+  border-radius: 8px;
+  padding: 10px 16px;
+  width: 100%;
+  transition: all 0.3s ease;
+}
+
+
+.card-outline-custom {
+  max-width: 400px;
+  width: 100%;
+  border: 2px solid hwb(210 87% 10%); 
+  border-radius: 12px;
+  background-color: rgb(254, 250, 250); 
+  padding: 1.5rem; 
+}
+
+
+
+
+
+

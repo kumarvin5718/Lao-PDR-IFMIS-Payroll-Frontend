@@ -1,0 +1,112 @@
+/* ==============================
+   Sidebar Container
+============================== */
+.sidebar-container {
+  background-color: #0d3b66;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden; /* Important */
+}
+
+/* Hide scrollbar */
+.sidebar-container,
+.sidebar-menu {
+  scrollbar-width: none;
+}
+
+.sidebar-container::-webkit-scrollbar,
+.sidebar-menu::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+
+/* ==============================
+   Sticky Header
+============================== */
+.sidebar-container .sidebar-header-sticky {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background-color: #0d3b66;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+/* ==============================
+   Scrollable Menu
+============================== */
+.sidebar-container .sidebar-menu {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+/* ==============================
+   Header Text
+============================== */
+.sidebar-container .sidebar-header h6 {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #ffffff;
+  margin-bottom: 2px;
+}
+
+.sidebar-container .sidebar-header small {
+  font-size: 0.65rem;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+/* ==============================
+   Base Links (Scoped!)
+============================== */
+.sidebar-container .nav-link,
+.sidebar-container .sidebar-toggle {
+  font-size: 0.72rem;
+  padding: 4px 8px !important;
+  border-radius: 4px;
+  color: #ffffff !important;
+  transition: background-color 0.2s ease;
+}
+
+/* ==============================
+   Hover
+============================== */
+.sidebar-container .nav-link:hover,
+.sidebar-container .sidebar-toggle:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+}
+
+/* ==============================
+   Active
+============================== */
+.sidebar-container .nav-link.active {
+  background-color: #082c4d;
+  font-weight: 600;
+  color: #ffffff !important;
+}
+
+/* ==============================
+   Submenu
+============================== */
+.sidebar-container .sidebar-sublink {
+  padding-left: 18px !important;
+  font-size: 0.68rem;
+}
+
+.sidebar-container .sidebar-sublink.active {
+  background-color: #061f36;
+}
+
+/* Chevron */
+.sidebar-container .sidebar-toggle svg {
+  transition: transform 0.2s ease;
+}
+
+/* Spacing */
+.sidebar-container .nav-item {
+  margin-bottom: 2px;
+}
+
+.sidebar-container .nav-item:not(:last-child) {
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
