@@ -1,7 +1,7 @@
 
 import React from "react";
 import { Outlet } from "react-router-dom";
-import { House, } from "react-bootstrap-icons";
+import { House, People} from "react-bootstrap-icons";
 import Sidebar from "../sidebar/Sidebar";
 
 // Optional: set sidebar width in one place
@@ -14,7 +14,7 @@ const DashboardLayout: React.FC = () => {
       link: "/",
       icon: <House />,
     },
-
+   { label: "Employee", link: "/employee", icon: <People /> },
     
   
 
