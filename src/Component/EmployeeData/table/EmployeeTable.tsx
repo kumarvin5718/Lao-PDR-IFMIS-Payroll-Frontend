@@ -6,14 +6,11 @@ import type { EmployeeType } from "../../../type/EmployeeType";
 import TableHeader from "../../../common/TableHeader";
 import TableBody from "../../../common/TableBody";
 import Pagination from "../../../common/Pagination";
-
-
+import "../../../style/EmployeeTable.css";
 const EmployeeTable: React.FC = () => {
     /* ---------------- Pagination ---------------- */
     const [page, setPage] = useState<number>(0);
     const [size, setSize] = useState<number>(10);
-
-
     const { data, isLoading, error } = useEmployeeDetails(page, size,);
 
     const headerColumns: TableHeaderColumn[] = [
@@ -81,7 +78,7 @@ const EmployeeTable: React.FC = () => {
 
         { label: "Change Remarks", accessor: "changeRemarks" }
     ];
-    /* ---------------- Body Config ---------------- */
+    // /* ---------------- Body Config ---------------- */
     const bodyColumns: TableColumn<EmployeeType>[] = [
         { header: "Employee Code", accessor: "employeeCode" },
         { header: "Title", accessor: "title" },
@@ -145,6 +142,7 @@ const EmployeeTable: React.FC = () => {
 
         { header: "Change Remarks", accessor: "changeRemarks" }
     ];
+   
     /* ---------------- Mapping Here ---------------- */
     const tableData = (data?.content ?? []).map((item: any) => ({
         ...item,
@@ -173,20 +171,17 @@ const EmployeeTable: React.FC = () => {
     return (
         <div className="card shadow-sm mt-2">
             <div className="card-body p-0">
-                <div className="table-responsive">
-                    <table className="table table-bordered table-hover align-middle mb-0 table-fixed">
+                <div className="table-responsive custom-table-wrapper">
+                    <table className="table table-bordered table-hover align-middle mb-0">
                         <TableHeader
                             columns={headerColumns}
-                            headerClassName="table-light"
+                            headerClassName="custom-header"
 
                         />
                         {isLoading ? (
                             <tbody>
                                 <tr>
-                                    <td
-                                        colSpan={headerColumns.length}
-                                        className="text-center py-4"
-                                    >
+                                    <td colSpan={headerColumns.length} className="text-center p-4">
                                         <div className="spinner-border text-primary" />
                                     </td>
                                 </tr>
@@ -220,3 +215,4 @@ const EmployeeTable: React.FC = () => {
 };
 
 export default EmployeeTable;
+

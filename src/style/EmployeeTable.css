@@ -1,0 +1,53 @@
+/* Table Wrapper */
+.custom-table-wrapper {
+  max-height: 500px;
+  overflow: auto;
+}
+
+/* Header Styling */
+.custom-header th {
+  background-color: #0d3b66 !important;
+  color: #ffffff !important;
+  text-align: center;
+  vertical-align: middle;
+  font-weight: 600;
+  font-size: 14px;
+  white-space: nowrap;
+
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+
+/* Table Cells */
+.table td {
+  font-size: 13px;
+  white-space: nowrap;
+  text-align: center;
+}
+
+/* Zebra Striping */
+.table tbody tr:nth-child(even) {
+  background-color: #f8f9fa;
+}
+
+/* Hover Effect */
+.table tbody tr:hover {
+  background-color: #e9f2ff;
+  transition: 0.2s ease;
+}
+
+/* Scrollbar Styling (Optional) */
+.custom-table-wrapper::-webkit-scrollbar {
+  height: 8px;
+  width: 8px;
+}
+
+.custom-table-wrapper::-webkit-scrollbar-thumb {
+  background: #adb5bd;
+  border-radius: 10px;
+}
+
+.custom-table-wrapper::-webkit-scrollbar-thumb:hover {
+  background: #6c757d;
+}
