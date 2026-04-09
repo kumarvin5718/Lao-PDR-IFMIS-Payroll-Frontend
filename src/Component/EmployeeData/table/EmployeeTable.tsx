@@ -6,12 +6,26 @@ import type { EmployeeType } from "../../../type/EmployeeType";
 import TableHeader from "../../../common/TableHeader";
 import TableBody from "../../../common/TableBody";
 import Pagination from "../../../common/Pagination";
+import { CheckCircleFill, XCircleFill } from "react-bootstrap-icons";
 import "../../../style/EmployeeTable.css";
 const EmployeeTable: React.FC = () => {
     /* ---------------- Pagination ---------------- */
     const [page, setPage] = useState<number>(0);
     const [size, setSize] = useState<number>(10);
     const { data, isLoading, error } = useEmployeeDetails(page, size,);
+
+    const renderGreenText = (value: any) => (
+        <span style={{ color: "green", fontWeight: 500 }}>
+            {value ?? "-"}
+        </span>
+    );
+
+    const renderBooleanIcon = (value: boolean) =>
+        value ? (
+            <CheckCircleFill color="green" />
+        ) : (
+            <XCircleFill color="red" />
+        );
 
     const headerColumns: TableHeaderColumn[] = [
         { label: "Employee Code", accessor: "employeeCode" },
@@ -69,14 +83,7 @@ const EmployeeTable: React.FC = () => {
         { label: "Is NA Member", accessor: "isNaMember" },
         { label: "Field Allowance Type", accessor: "fieldAllowanceType" },
 
-        { label: "Effective From (Record Active Date)", accessor: "effectiveFrom" },
-        { label: "Effective To (Superseded Date)", accessor: "effectiveTo" },
 
-        { label: "Record Created (Date)", accessor: "createdDate" },
-        { label: "Last Updated (Date)", accessor: "updatedDate" },
-        { label: "Last Updated By (Name / Code)", accessor: "updatedBy" },
-
-        { label: "Change Remarks", accessor: "changeRemarks" }
     ];
     // /* ---------------- Body Config ---------------- */
     const bodyColumns: TableColumn<EmployeeType>[] = [
@@ -89,16 +96,27 @@ const EmployeeTable: React.FC = () => {
         { header: "Email Address", accessor: "email" },
         { header: "Mobile Number", accessor: "mobileNumber" },
         { header: "Date of Joining", accessor: "dateOfJoining" },
-        { header: "Years of Service", accessor: "yearsOfService" },
-        { header: "Date of Retirement", accessor: "dateOfRetirement" },
-
+        {
+            header: "Years of Service",
+            render: (row) => renderGreenText(row.yearsOfService),
+        },
+        {
+            header: "Date of Retirement",
+            render: (row) => renderGreenText(row.dateOfRetirement),
+        },
         { header: "Employment Type", accessor: "employmentType" },
         { header: "Position / Designation", accessor: "position" },
         { header: "Education Qualification", accessor: "educationLevelName" },
         { header: "Prior Experience (Yrs before Govt)", accessor: "priorExperience" },
 
-        { header: "Grade", accessor: "grade" },
-        { header: "Step", accessor: "step" },
+        {
+            header: "Grade",
+            render: (row) => renderGreenText(row.grade),
+        },
+        {
+            header: "Step",
+            render: (row) => renderGreenText(row.step),
+        },
         { header: "Civil Service Card ID", accessor: "civilServiceCardId" },
         { header: "Social Security No.", accessor: "socialSecurityNumber" },
 
@@ -110,10 +128,22 @@ const EmployeeTable: React.FC = () => {
         { header: "Service Province / Posting", accessor: "provinceName" },
         { header: "Service District", accessor: "districtName" },
 
-        { header: "Profession Category", accessor: "professionCategory" },
-        { header: "Is Remote Area", accessor: "isRemoteArea" },
-        { header: "Is Foreign Posting", accessor: "isForeignPosting" },
-        { header: "Is Hazardous Area", accessor: "isHazardousArea" },
+        {
+            header: "Profession Category",
+            render: (row) => renderGreenText(row.professionCategory),
+        },
+        {
+            header: "Is Remote Area",
+            render: (row) => renderBooleanIcon(row.isRemoteArea),
+        },
+        {
+            header: "Is Foreign Posting",
+            render: (row) => renderBooleanIcon(row.isForeignPosting),
+        },
+        {
+            header: "Is Hazardous Area",
+            render: (row) => renderBooleanIcon(row.isHazardousArea),
+        },
         { header: "House No.", accessor: "houseNo" },
         { header: "Street", accessor: "street" },
         { header: "Area / Baan", accessor: "area" },
@@ -121,28 +151,34 @@ const EmployeeTable: React.FC = () => {
         { header: "PIN Code", accessor: "pinCode" },
         { header: "Country", accessor: "countryName" },
         { header: "Bank Name", accessor: "bankName" },
-        { header: "Bank Branch", accessor: "branchName" },
+        {
+            header: "Bank Branch Code",
+            render: (row) => renderGreenText(row.branchCode),
+        },
         { header: "Bank Branch Code", accessor: "branchCode" },
         { header: "Bank Account No.", accessor: "bankAccountNo" },
-        { header: "SWIFT / BIC Code", accessor: "swiftCode" },
+        {
+            header: "SWIFT / BIC Code",
+            render: (row) => renderGreenText(row.swiftCode),
+        },
 
         { header: "Has Spouse", accessor: "hasSpouse" },
         { header: "No. of Eligible Children (max 3)", accessor: "noOfEligibleChildren" },
 
-        { header: "Position Level (for Allowance)", accessor: "position" },
-        { header: "Is NA Member", accessor: "isNaMember" },
-        { header: "Field Allowance Type", accessor: "fieldAllowanceType" },
-
-        { header: "Effective From (Record Active Date)", accessor: "effectiveFrom" },
-        { header: "Effective To (Superseded Date)", accessor: "effectiveTo" },
-
-        { header: "Record Created (Date)", accessor: "createdDate" },
-        { header: "Last Updated (Date)", accessor: "updatedDate" },
-        { header: "Last Updated By (Name / Code)", accessor: "updatedBy" },
-
-        { header: "Change Remarks", accessor: "changeRemarks" }
+        {
+            header: "Position Level (for Allowance)",
+            render: (row) => renderGreenText(row.positionLevel),
+        },
+        {
+            header: "Is NA Member",
+            render: (row) => renderBooleanIcon(row.isNaMember || false),
+        },
+        {
+            header: "Field Allowance Type",
+            render: (row) => renderGreenText(row.fieldAllowanceType),
+        },
     ];
-   
+
     /* ---------------- Mapping Here ---------------- */
     const tableData = (data?.content ?? []).map((item: any) => ({
         ...item,

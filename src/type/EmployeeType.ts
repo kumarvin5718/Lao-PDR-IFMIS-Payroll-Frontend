@@ -30,6 +30,7 @@ export interface EmployeeType {
   isRemoteArea: boolean;
   isForeignPosting: boolean;
   isHazardousArea: boolean;
+  positionLevel: string;
   address: {
     houseNo: string;
     street: string;
