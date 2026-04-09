@@ -17,6 +17,8 @@ const steps = [
 ];
 
 const EmployeeDetailForm: React.FC = () => {
+    const [apiMessage, setApiMessage] = useState<string | null>(null);
+    const [apiError, setApiError] = useState<string | null>(null);
     const [currentStep, setCurrentStep] = useState(0);
     const [showConfirm, setShowConfirm] = useState(false);
     const [formData, setFormData] = useState<any>({});
@@ -121,20 +123,51 @@ const EmployeeDetailForm: React.FC = () => {
     //     console.log("Form submitted with data:", formData);
     // };
 
+    // const handleConfirmSubmit = () => {
+    //     setShowConfirm(false);
+
+    //     // 🔥 Transform frontend data → backend DTO
+    //     const payload = {
+    //         ...formData,
+
+    //         // Fix types
+    //         priorExperience: Number(formData.priorExperience),
+    //         noOfEligibleChildren: Number(formData.noOfEligibleChildren),
+
+    //         hasSpouse: formData.hasSpouse === "Yes" || formData.hasSpouse === true,
+
+    //         // Address mapping
+    //         address: {
+    //             houseNo: formData.houseNo,
+    //             street: formData.street,
+    //             area: formData.area,
+    //             provinceOfResidence: formData.provinceOfResidence,
+    //             pinCode: formData.pinCode,
+    //             country: formData.country,
+    //         },
+
+    //         // Correct field mapping
+    //         branchId: formData.branch,
+
+    //         // Remove unwanted fields
+    //         serviceProvince: undefined,
+    //         serviceDistrict: undefined,
+    //     };
+
+    //     mutate(payload);
+    // };
+
     const handleConfirmSubmit = () => {
         setShowConfirm(false);
+        setApiMessage(null);
+        setApiError(null);
 
-        // 🔥 Transform frontend data → backend DTO
         const payload = {
             ...formData,
-
-            // Fix types
             priorExperience: Number(formData.priorExperience),
             noOfEligibleChildren: Number(formData.noOfEligibleChildren),
-
             hasSpouse: formData.hasSpouse === "Yes" || formData.hasSpouse === true,
 
-            // Address mapping
             address: {
                 houseNo: formData.houseNo,
                 street: formData.street,
@@ -144,18 +177,45 @@ const EmployeeDetailForm: React.FC = () => {
                 country: formData.country,
             },
 
-            // Correct field mapping
             branchId: formData.branch,
-
-            // Remove unwanted fields
             serviceProvince: undefined,
             serviceDistrict: undefined,
         };
 
-        mutate(payload);
+        mutate(payload, {
+            // onSuccess: (data) => {
+
+            //     setApiMessage(data || "✅ Employee created successfully");
+            //     setFormData({});
+            //     setCurrentStep(0);
+            // },
+            onSuccess: (data) => {
+                setApiMessage(data || "✅ Employee created successfully");
+            },
+            onError: (error: any) => {
+                setApiError(
+                    error.response?.data?.message ||
+                    "❌ Failed to create employee"
+                );
+            }
+        });
     };
+
     return (
         <div className="gov-container">
+            {isPending && (
+                <div className="text-center my-3">
+                    <div className="spinner-border text-primary" role="status" />
+                    <p>Submitting employee...</p>
+                </div>
+            )}
+            {apiMessage && (
+                <div className="alert alert-success">{apiMessage}</div>
+            )}
+
+            {apiError && (
+                <div className="alert alert-danger">{apiError}</div>
+            )}
             <div className="container mt-2">
                 {/* Progress Bar */}
                 <div className="progress mb-3">
@@ -203,13 +263,25 @@ const EmployeeDetailForm: React.FC = () => {
                                 Back
                             </button>
 
-                            <button
+                            {/* <button
                                 className="btn btn-primary btn-sm"
                                 onClick={nextStep}
                             >
                                 {currentStep === steps.length - 1
                                     ? "Submit"
                                     : "Next"}
+                            </button> */}
+
+                            <button
+                                className="btn btn-primary btn-sm"
+                                onClick={nextStep}
+                                disabled={isPending}
+                            >
+                                {isPending
+                                    ? "Submitting..."
+                                    : currentStep === steps.length - 1
+                                        ? "Submit"
+                                        : "Next"}
                             </button>
                         </div>
 
