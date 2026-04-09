@@ -1,5 +1,8 @@
-import React, { useState } from "react";
-import { useEmployeeDetails } from "../../../hooks/EmployeeData/useEmployeementDetails";
+import React, { useEffect, useState } from "react";
+import {
+    useEmployeeDetails,
+    useEmployeeDetailsBySearch,
+} from "../../../hooks/EmployeeData/useEmployeementDetails";
 import type { TableHeaderColumn } from "../../../common/TableHeader";
 import type { TableColumn } from "../../../common/TableBody";
 import type { EmployeeType } from "../../../type/EmployeeType";
@@ -8,11 +11,44 @@ import TableBody from "../../../common/TableBody";
 import Pagination from "../../../common/Pagination";
 import { CheckCircleFill, XCircleFill } from "react-bootstrap-icons";
 import "../../../style/EmployeeTable.css";
+
 const EmployeeTable: React.FC = () => {
-    /* ---------------- Pagination ---------------- */
+
     const [page, setPage] = useState<number>(0);
     const [size, setSize] = useState<number>(10);
-    const { data, isLoading, error } = useEmployeeDetails(page, size,);
+
+    const [search, setSearch] = useState({
+        keyword: "",
+        firstName: "",
+        lastName: "",
+        employeeCode: "",
+    });
+
+    const [debouncedSearch, setDebouncedSearch] = useState(search);
+
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setDebouncedSearch(search);
+            setPage(0);
+        }, 500);
+
+        return () => clearTimeout(timer);
+    }, [search]);
+
+    const { data, isLoading, error } = useEmployeeDetails(page, size);
+
+    const { data: data1, isLoading: isLoading1, error: error1 } =
+        useEmployeeDetailsBySearch(page, size, debouncedSearch);
+
+    const isSearching =
+        debouncedSearch.keyword ||
+        debouncedSearch.firstName ||
+        debouncedSearch.lastName ||
+        debouncedSearch.employeeCode;
+
+    const finalData = isSearching ? data1 : data;
+    const isLoadingFinal = isSearching ? isLoading1 : isLoading;
+    const errorFinal = isSearching ? error1 : error;
 
     const renderGreenText = (value: any) => (
         <span style={{ color: "green", fontWeight: 500 }}>
@@ -21,12 +57,9 @@ const EmployeeTable: React.FC = () => {
     );
 
     const renderBooleanIcon = (value: boolean) =>
-        value ? (
-            <CheckCircleFill color="green" />
-        ) : (
-            <XCircleFill color="red" />
-        );
+        value ? <CheckCircleFill color="green" /> : <XCircleFill color="red" />;
 
+    /* ---------------- HEADERS (ALL RESTORED) ---------------- */
     const headerColumns: TableHeaderColumn[] = [
         { label: "Employee Code", accessor: "employeeCode" },
         { label: "Title", accessor: "title" },
@@ -152,8 +185,8 @@ const EmployeeTable: React.FC = () => {
         { header: "Country", accessor: "countryName" },
         { header: "Bank Name", accessor: "bankName" },
         {
-            header: "Bank Branch Code",
-            render: (row) => renderGreenText(row.branchCode),
+            header: "Branch Name",
+            render: (row) => renderGreenText(row.branchName),
         },
         { header: "Bank Branch Code", accessor: "branchCode" },
         { header: "Bank Account No.", accessor: "bankAccountNo" },
@@ -179,42 +212,105 @@ const EmployeeTable: React.FC = () => {
         },
     ];
 
-    /* ---------------- Mapping Here ---------------- */
-    const tableData = (data?.content ?? []).map((item: any) => ({
+    const tableData = (finalData?.content ?? []).map((item: any) => ({
         ...item,
-
         houseNo: item.address?.houseNo || "-",
         street: item.address?.street || "-",
         area: item.address?.area || "-",
-
-
         residenceProvince: item.address?.provinceOfResidence || "-",
-
         pinCode: item.address?.pinCode || "-",
         country: item.address?.country || "-",
-        //  Fix mapping
         bankAccountNo: item.accountNumber,
     }));
 
-    if (error) {
-        return (
-            <div className="alert alert-danger mt-4">
-                {error.message}
-            </div>
-        );
+    if (errorFinal) {
+        return <div className="alert alert-danger">{errorFinal.message}</div>;
     }
 
     return (
         <div className="card shadow-sm mt-2">
             <div className="card-body p-0">
+
+                {/* SEARCH */}
+                {/* SEARCH */}
+                <div className="card shadow-sm mb-2">
+                    <div className="card-body py-2">
+                        <div className="row g-2 align-items-center">
+
+                            <div className="col-md-3">
+                                <input
+                                    type="text"
+                                    className="form-control form-control-sm"
+                                    placeholder="🔍 Keyword"
+                                    value={search.keyword}
+                                    onChange={(e) =>
+                                        setSearch({ ...search, keyword: e.target.value })
+                                    }
+                                />
+                            </div>
+
+                            <div className="col-md-2">
+                                <input
+                                    type="text"
+                                    className="form-control form-control-sm"
+                                    placeholder="Employee Code"
+                                    value={search.employeeCode}
+                                    onChange={(e) =>
+                                        setSearch({ ...search, employeeCode: e.target.value })
+                                    }
+                                />
+                            </div>
+
+                            <div className="col-md-2">
+                                <input
+                                    type="text"
+                                    className="form-control form-control-sm"
+                                    placeholder="First Name"
+                                    value={search.firstName}
+                                    onChange={(e) =>
+                                        setSearch({ ...search, firstName: e.target.value })
+                                    }
+                                />
+                            </div>
+
+                            <div className="col-md-2">
+                                <input
+                                    type="text"
+                                    className="form-control form-control-sm"
+                                    placeholder="Last Name"
+                                    value={search.lastName}
+                                    onChange={(e) =>
+                                        setSearch({ ...search, lastName: e.target.value })
+                                    }
+                                />
+                            </div>
+
+                            <div className="col-md-3 d-flex gap-2">
+                                <button
+                                    className="btn btn-sm btn-outline-secondary w-50"
+                                    onClick={() =>
+                                        setSearch({
+                                            keyword: "",
+                                            firstName: "",
+                                            lastName: "",
+                                            employeeCode: "",
+                                        })
+                                    }
+                                >
+                                    Reset
+                                </button>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                {/* TABLE */}
                 <div className="table-responsive custom-table-wrapper">
                     <table className="table table-bordered table-hover align-middle mb-0">
-                        <TableHeader
-                            columns={headerColumns}
-                            headerClassName="custom-header"
+                        <TableHeader columns={headerColumns} headerClassName="custom-header" />
 
-                        />
-                        {isLoading ? (
+                        {isLoadingFinal ? (
                             <tbody>
                                 <tr>
                                     <td colSpan={headerColumns.length} className="text-center p-4">
@@ -223,24 +319,19 @@ const EmployeeTable: React.FC = () => {
                                 </tr>
                             </tbody>
                         ) : (
-                            <TableBody
-                                data={tableData}
-                                columns={bodyColumns}
-                                page={page}
-                                size={size}
-                            />
+                            <TableBody data={tableData} columns={bodyColumns} page={page} size={size} />
                         )}
                     </table>
                 </div>
             </div>
 
-            {data && (
+            {finalData && (
                 <div className="px-2">
                     <Pagination
                         page={page}
                         size={size}
-                        totalPages={data.totalPages}
-                        totalElements={data.totalElements}
+                        totalPages={finalData.totalPages}
+                        totalElements={finalData.totalElements}
                         onPageChange={setPage}
                         onSizeChange={setSize}
                     />
@@ -251,4 +342,3 @@ const EmployeeTable: React.FC = () => {
 };
 
 export default EmployeeTable;
-

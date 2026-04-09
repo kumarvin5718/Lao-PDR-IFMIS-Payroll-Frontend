@@ -23,3 +23,31 @@ export const useEmployeeDetails = (
         }
     });
 };
+
+export const useEmployeeDetailsBySearch = (
+    page: number,
+    size: number,
+    searchParams: {
+        keyword?: string;
+        firstName?: string;
+        lastName?: string;
+        employeeCode?: string;
+    }
+) => {
+    return useQuery({
+        queryKey: ["employeeDetails", page, size, searchParams],
+        queryFn: async () => {
+            const params: Record<string, any> = {
+                page,
+                size,
+                ...searchParams,
+            };
+
+            const response = await api.get("/api/employees/search", {
+                params,
+            });
+
+            return response.data;
+        },
+        enabled: Object.values(searchParams).some((value) => value && value.trim() !== ""),});
+};
