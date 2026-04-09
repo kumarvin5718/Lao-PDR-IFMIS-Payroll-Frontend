@@ -1,6 +1,7 @@
 import { Route, Routes } from 'react-router-dom'
 import './App.css'
 import EmployeeDetailPage from './page/EmployeeMaster/EmployeeDetails.Page'
+import EmployeeDetailGetPage from './page/EmployeeMaster/EmployeeDetailGetPage'
 
 function App() {
 
@@ -20,6 +21,7 @@ function App() {
       </Routes> */}
       <Routes>
         <Route path="/" element={<EmployeeDetailPage />} />
+        <Route path="/employee/detail" element={<EmployeeDetailGetPage />} />
       </Routes>
 
     </>

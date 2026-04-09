@@ -15,6 +15,7 @@ const DashboardLayout: React.FC = () => {
       icon: <House />,
     },
    { label: "Employee", link: "/employee", icon: <People /> },
+     { label: "Employee Detail", link: "/employee/detail", icon: <People /> },
     
   
 
