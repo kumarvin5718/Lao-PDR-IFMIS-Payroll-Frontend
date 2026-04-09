@@ -2,10 +2,11 @@ import Field from "../Field";
 import { useEffect } from "react";
 import { useEmployeeType } from "../../../hooks/EmployeeData/useEmployeeType";
 import "../../../style/Employee.css";
+import { useEducationLevel } from "../../../hooks/EmployeeData/userEducationLevel";
 
 const Employment = ({ formData, handleChange, errors }: any) => {
   const { data: employmentTypes, isLoading, isError, refetch } = useEmployeeType(true);
-
+  const { data: educationLevels, isLoading: educationLoading, isError: educationError } = useEducationLevel(true);
   // Auto fetch on mount if needed
   useEffect(() => {
     if (isError) {
@@ -65,24 +66,45 @@ const Employment = ({ formData, handleChange, errors }: any) => {
       </Field>
 
       <Field
-        label="Designation"
-        value={formData.designation}
-        error={errors.designation}
-        onChange={(e: any) => handleChange("designation", e.target.value)}
+        label="Position"
+        value={formData.position}
+        error={errors.position}
+        onChange={(e: any) => handleChange("position", e.target.value)}
       >
         <input
           className="form-control form-control-sm"
-          value={formData.designation || ""}
-          onChange={(e) => handleChange("designation", e.target.value)}
+          value={formData.position || ""}
+          onChange={(e) => handleChange("position", e.target.value)}
         />
       </Field>
+      <Field
+        label="Education Level"
+        value={formData.educationLevelId}
+        error={errors.educationLevelId}
+      >
+        <select
+          className="form-select form-select-sm"
+          value={formData.educationLevelId || ""}
+          onChange={(e) =>
+            handleChange("educationLevelId", e.target.value)
+          }
+          disabled={educationLoading}
+        >
+          <option value="">Select</option>
 
-          <Field label="Education Qualification" value={formData.educationQualification} error={errors.educationQualification}
-        onChange={(e: any) => handleChange("Education Qualification", e.target.value)}>
-        <input className="form-control form-control-sm" />
+          {educationLoading && <option value="">Loading...</option>}
+
+          {educationError && <option value="">Failed to load</option>}
+
+          {Array.isArray(educationLevels) &&
+            educationLevels.map((item: any) => (
+              <option key={item.id} value={item.id}>
+                {item.name} {/*  name display hoga */}
+              </option>
+            ))}
+        </select>
       </Field>
-
-        <Field label="Prior Experience" value={formData.priorExperience} error={errors.priorExperience}
+      <Field label="Prior Experience" value={formData.priorExperience} error={errors.priorExperience}
         onChange={(e: any) => handleChange("Prior Experience", e.target.value)}>
         <input className="form-control form-control-sm" />
       </Field>

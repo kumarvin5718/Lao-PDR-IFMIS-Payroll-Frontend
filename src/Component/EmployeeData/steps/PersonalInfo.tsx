@@ -20,9 +20,12 @@ const PersonalInfo = ({ formData, handleChange, errors }: any) => {
         onChange={(e: any) => handleChange("title", e.target.value)}
       >
         <select className="form-select form-select-sm">
-          <option value="">Select</option>
-          <option value="Mr">Mr</option>
-          <option value="Ms">Ms</option>
+           <option value="">Select</option>
+          <option value="MR">Mr</option>
+          <option value="MS">Ms</option>
+          <option value="MRS">Mrs</option>
+          <option value="DR">Dr</option>
+          <option value="PROF">Prof</option>
         </select>
       </Field>
 
@@ -34,8 +37,8 @@ const PersonalInfo = ({ formData, handleChange, errors }: any) => {
       >
         <select className="form-select form-select-sm">
           <option value="">Select</option>
-          <option value="Male">Male</option>
-          <option value="Female">Female</option>
+          <option value="MALE">Male</option>
+          <option value="FEMALE">Female</option>
         </select>
       </Field>
 
@@ -68,18 +71,18 @@ const PersonalInfo = ({ formData, handleChange, errors }: any) => {
 
       <Field
         label="Mobile No"
-        value={formData.mobile}
-        error={errors.mobile}
-        onChange={(e: any) => handleChange("mobile", e.target.value)}
+        value={formData.mobileNumber}
+        error={errors.mobileNumber}
+        onChange={(e: any) => handleChange("mobileNumber", e.target.value)}
       >
         <input className="form-control form-control-sm" />
       </Field>
 
       <Field
         label="Date of Joining"
-        value={formData.doj}
-        error={errors.doj}
-        onChange={(e: any) => handleChange("doj", e.target.value)}
+        value={formData.dateOfJoining}
+        error={errors.dateOfJoining}
+        onChange={(e: any) => handleChange("dateOfJoining", e.target.value)}
       >
         <input type="date" className="form-control form-control-sm" />
       </Field>

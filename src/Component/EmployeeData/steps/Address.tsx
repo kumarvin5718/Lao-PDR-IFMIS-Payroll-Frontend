@@ -18,13 +18,13 @@ const Address = ({ formData, handleChange, errors }: any) => {
         <input className="form-control form-control-sm" />
       </Field>
 
-      <Field label="Province" value={formData.province} error={errors.province}
-        onChange={(e: any) => handleChange("province", e.target.value)}>
+      <Field label="Province" value={formData.provinceOfResidence} error={errors.provinceOfResidence}
+        onChange={(e: any) => handleChange("provinceOfResidence", e.target.value)}>
         <input className="form-control form-control-sm" />
       </Field>
 
-      <Field label="PIN Code" value={formData.pin} error={errors.pin}
-        onChange={(e: any) => handleChange("pin", e.target.value)}>
+      <Field label="PIN Code" value={formData.pinCode} error={errors.pinCode}
+        onChange={(e: any) => handleChange("pinCode", e.target.value)}>
         <input className="form-control form-control-sm" />
       </Field>
 

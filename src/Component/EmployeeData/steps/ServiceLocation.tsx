@@ -109,10 +109,10 @@ const ServiceLocation = ({ formData, handleChange, errors }: any) => {
       {/*  Country Dropdown */}
       <Field
         label="Country"
-        value={formData.serviceCountry}
-        error={errors.serviceCountry}
+        value={formData.countryKey}
+        error={errors.countryKey}
         onChange={(e: any) =>
-          handleChange("serviceCountry", e.target.value)
+          handleChange("countryKey", e.target.value)
         }
       >
         <select
@@ -127,8 +127,8 @@ const ServiceLocation = ({ formData, handleChange, errors }: any) => {
       {/*  Province */}
       <Field
         label="Province"
-        value={formData.serviceProvince}
-        error={errors.serviceProvince}
+        value={formData.provinceKey}
+        error={errors.provinceKey}
         onChange={(e: any) =>
           handleProvinceChange(e.target.value)
         }
@@ -146,10 +146,10 @@ const ServiceLocation = ({ formData, handleChange, errors }: any) => {
       {/*  District */}
       <Field
         label="District"
-        value={formData.serviceDistrict}
-        error={errors.serviceDistrict}
+        value={formData.districtKey}
+        error={errors.districtKey}
         onChange={(e: any) =>
-          handleChange("serviceDistrict", e.target.value)
+          handleChange("districtKey", e.target.value)
         }
       >
         <select

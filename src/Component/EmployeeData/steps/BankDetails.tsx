@@ -103,10 +103,10 @@ const BankDetails = ({ formData, handleChange, errors }: any) => {
       {/*  Branch Dropdown */}
       <Field
         label="Branch"
-        value={formData.branch}
-        error={errors.branch}
+        value={formData.accountNumber}
+        error={errors.accountNumber}
         onChange={(e: any) =>
-          handleChange("branch", e.target.value)
+          handleChange("accountNumber", e.target.value)
         }
       >
         <select
@@ -122,10 +122,10 @@ const BankDetails = ({ formData, handleChange, errors }: any) => {
       {/*  Account Number */}
       <Field
         label="Account No"
-        value={formData.accountNo}
-        error={errors.accountNo}
+        value={formData.accountNumber}
+        error={errors.accountNumber}
         onChange={(e: any) =>
-          handleChange("accountNo", e.target.value)
+          handleChange("accountNumber", e.target.value)
         }
       >
         <input className="form-control form-control-sm" />

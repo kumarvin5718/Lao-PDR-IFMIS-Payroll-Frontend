@@ -66,16 +66,16 @@ const Organisation = ({ formData, handleChange, errors }: any) => {
 
   return (
     <>
-      <Field label="Ministry" value={formData.ministry} error={errors.ministry}
-        onChange={(e: any) => handleChange("ministry", e.target.value)}>
+      <Field label="Ministry" value={formData.ministryId} error={errors.ministryId}
+        onChange={(e: any) => handleChange("ministryId", e.target.value)}>
         <select className="form-select form-select-sm" onClick={handleMinistryClick} disabled={ministryLoading}>
           <option value="">Select</option>
           {renderMinistryOptions()}
         </select>
       </Field>
 
-      <Field label="Department" value={formData.department} error={errors.department}
-        onChange={(e: any) => handleChange("department", e.target.value)}>
+      <Field label="Department" value={formData.departmentId} error={errors.departmentId}
+        onChange={(e: any) => handleChange("departmentId", e.target.value)}>
         <select className="form-select form-select-sm" onClick={handleDepartmentClick} disabled={departmentLoading}>
           <option value="">Select</option>
           {renderDepartmentOptions()}

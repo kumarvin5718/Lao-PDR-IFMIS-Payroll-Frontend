@@ -3,8 +3,8 @@ import "../../../style/Employee.css";
 const PayrollFlags = ({ formData, handleChange, errors }: any) => {
   return (
     <>
-      <Field label="Has Spouse" value={formData.spouse} error={errors.spouse}
-        onChange={(e: any) => handleChange("spouse", e.target.value)}>
+      <Field label="Has Spouse" value={formData.hasSpouse} error={errors.hasSpouse}
+        onChange={(e: any) => handleChange("hasSpouse", e.target.value)}>
         <select className="form-select form-select-sm">
           <option value="">Select</option>
           <option>Yes</option>
@@ -12,8 +12,8 @@ const PayrollFlags = ({ formData, handleChange, errors }: any) => {
         </select>
       </Field>
 
-      <Field label="No. of Children" value={formData.children} error={errors.children}
-        onChange={(e: any) => handleChange("children", e.target.value)}>
+      <Field label="No. of Children" value={formData.noOfEligibleChildren} error={errors.noOfEligibleChildren}
+        onChange={(e: any) => handleChange("noOfEligibleChildren", e.target.value)}>
         <input className="form-control form-control-sm" />
       </Field>
     </>

@@ -46,43 +46,45 @@ const EmployeeDetailForm: React.FC = () => {
         if (currentStep === 1) {
             if (!formData.employmentType) newErrors.employmentType = "Required";
             if (!formData.designation) newErrors.designation = "Required";
+            if(!formData.educationLevel) newErrors.educationLevel = "Required";
+            if(!formData.priorExperience) newErrors.priorExperience = "Required";
         }
 
         if (currentStep === 2) {
-            if (!formData.civilId) newErrors.civilId = "Required";
-            if (!formData.ssn) newErrors.ssn = "Required";
+            if (!formData.civilServiceCardId) newErrors.civilServiceCardId = "Required";
+            if (!formData.socialSecurityNumber) newErrors.socialSecurityNumber = "Required";
         }
 
         if (currentStep === 3) {
-            if (!formData.ministry) newErrors.ministry = "Required";
-            if (!formData.department) newErrors.department = "Required";
+            if (!formData.ministryId) newErrors.ministryId = "Required";
+            if (!formData.departmentId) newErrors.departmentId = "Required";
             if (!formData.division) newErrors.division = "Required";
         }
 
         if (currentStep === 4) {
-            if (!formData.serviceCountry) newErrors.serviceCountry = "Required";
-            if (!formData.serviceProvince) newErrors.serviceProvince = "Required";
-            if (!formData.serviceDistrict) newErrors.serviceDistrict = "Required";
+            if (!formData.countryKey) newErrors.countryKey = "Required";
+            if (!formData.provinceKey) newErrors.provinceKey = "Required";
+            if (!formData.districtKey) newErrors.districtKey = "Required";
         }
 
         if (currentStep === 5) {
             if (!formData.houseNo) newErrors.houseNo = "Required";
             if (!formData.street) newErrors.street = "Required";
             if (!formData.area) newErrors.area = "Required";
-            if (!formData.province) newErrors.province = "Required";
-            if (!formData.pin) newErrors.pin = "Required";
+            if (!formData.provinceOfResidence) newErrors.provinceOfResidence = "Required";
+            if (!formData.pinCode) newErrors.pinCode = "Required";
             if (!formData.country) newErrors.country = "Required";
         }
 
         if (currentStep === 6) {
-            if (!formData.bankName) newErrors.bankName = "Required";
-            if (!formData.branch) newErrors.branch = "Required";
-            if (!formData.accountNo) newErrors.accountNo = "Required";
+             if (!formData.bankName) newErrors.bankName = "Required";
+            if (!formData.branchId) newErrors.branchId = "Required";
+            if (!formData.accountNumber) newErrors.accountNumber = "Required";
         }
 
         if (currentStep === 7) {
-            if (!formData.spouse) newErrors.spouse = "Required";
-            if (!formData.children) newErrors.children = "Required";
+            if (!formData.hasSpouse) newErrors.hasSpouse = "Required";
+            if (!formData.noOfEligibleChildren) newErrors.noOfEligibleChildren = "Required";
         }
 
         setErrors(newErrors);
@@ -113,6 +115,7 @@ const EmployeeDetailForm: React.FC = () => {
     };
     const handleConfirmSubmit = () => {
         setShowConfirm(false);
+        console.log("Form submitted with data:", formData);
     };
 
     return (
