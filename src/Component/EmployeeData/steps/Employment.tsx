@@ -76,6 +76,16 @@ const Employment = ({ formData, handleChange, errors }: any) => {
           onChange={(e) => handleChange("designation", e.target.value)}
         />
       </Field>
+
+          <Field label="Education Qualification" value={formData.educationQualification} error={errors.educationQualification}
+        onChange={(e: any) => handleChange("Education Qualification", e.target.value)}>
+        <input className="form-control form-control-sm" />
+      </Field>
+
+        <Field label="Prior Experience" value={formData.priorExperience} error={errors.priorExperience}
+        onChange={(e: any) => handleChange("Prior Experience", e.target.value)}>
+        <input className="form-control form-control-sm" />
+      </Field>
     </>
   );
 };
