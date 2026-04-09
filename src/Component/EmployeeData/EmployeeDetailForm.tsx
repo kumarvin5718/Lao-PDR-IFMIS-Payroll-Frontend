@@ -3,6 +3,7 @@ import StepRenderer from "./StepRenderer";
 import '../../style/Employee.css';
 import { Check2Circle } from "react-bootstrap-icons";
 import ConfirmModal from "../../common/ConfirmModal";
+import { useCreateEmployee } from "../../hooks/EmployeeData/useEmployee";
 
 const steps = [
     "Personal Information",
@@ -23,6 +24,7 @@ const EmployeeDetailForm: React.FC = () => {
     const [completedSteps, setCompletedSteps] = useState<boolean[]>(
         Array(steps.length).fill(false)
     );
+    const { mutate, isPending } = useCreateEmployee();
 
     const handleChange = (field: string, value: any) => {
         setFormData((prev: any) => ({ ...prev, [field]: value }));
@@ -39,15 +41,16 @@ const EmployeeDetailForm: React.FC = () => {
             if (!formData.firstName) newErrors.firstName = "Required";
             if (!formData.lastName) newErrors.lastName = "Required";
             if (!formData.email) newErrors.email = "Required";
-            if (!formData.mobile) newErrors.mobile = "Required";
-            if (!formData.doj) newErrors.doj = "Required";
+            if (!formData.mobileNumber) newErrors.mobileNumber = "Required";
+            if (!formData.dateOfJoining) newErrors.dateOfJoining = "Required";
+            if (!formData.dateOfBirth) newErrors.dateOfBirth = "Required";
         }
 
         if (currentStep === 1) {
             if (!formData.employmentType) newErrors.employmentType = "Required";
-            if (!formData.designation) newErrors.designation = "Required";
-            if(!formData.educationLevel) newErrors.educationLevel = "Required";
-            if(!formData.priorExperience) newErrors.priorExperience = "Required";
+            if (!formData.position) newErrors.position = "Required";
+            if (!formData.educationLevelId) newErrors.educationLevelId = "Required";
+            if (!formData.priorExperience) newErrors.priorExperience = "Required";
         }
 
         if (currentStep === 2) {
@@ -77,8 +80,8 @@ const EmployeeDetailForm: React.FC = () => {
         }
 
         if (currentStep === 6) {
-             if (!formData.bankName) newErrors.bankName = "Required";
-            if (!formData.branchId) newErrors.branchId = "Required";
+            if (!formData.bank) newErrors.bank = "Required";
+            if (!formData.branch) newErrors.branch = "Required";
             if (!formData.accountNumber) newErrors.accountNumber = "Required";
         }
 
@@ -113,11 +116,44 @@ const EmployeeDetailForm: React.FC = () => {
     const prevStep = () => {
         if (currentStep > 0) setCurrentStep((prev) => prev - 1);
     };
+    // const handleConfirmSubmit = () => {
+    //     setShowConfirm(false);
+    //     console.log("Form submitted with data:", formData);
+    // };
+
     const handleConfirmSubmit = () => {
         setShowConfirm(false);
-        console.log("Form submitted with data:", formData);
-    };
 
+        // 🔥 Transform frontend data → backend DTO
+        const payload = {
+            ...formData,
+
+            // Fix types
+            priorExperience: Number(formData.priorExperience),
+            noOfEligibleChildren: Number(formData.noOfEligibleChildren),
+
+            hasSpouse: formData.hasSpouse === "Yes" || formData.hasSpouse === true,
+
+            // Address mapping
+            address: {
+                houseNo: formData.houseNo,
+                street: formData.street,
+                area: formData.area,
+                provinceOfResidence: formData.provinceOfResidence,
+                pinCode: formData.pinCode,
+                country: formData.country,
+            },
+
+            // Correct field mapping
+            branchId: formData.branch,
+
+            // Remove unwanted fields
+            serviceProvince: undefined,
+            serviceDistrict: undefined,
+        };
+
+        mutate(payload);
+    };
     return (
         <div className="gov-container">
             <div className="container mt-2">

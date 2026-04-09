@@ -23,7 +23,7 @@ const ServiceLocation = ({ formData, handleChange, errors }: any) => {
     isLoading: districtLoading,
     isError: districtError,
     refetch: refetchDistricts,
-  } = useDistrict(formData.serviceProvince, false);
+  } = useDistrict(formData.provinceKey, false);
 
   //  Fetch provinces on click
   const handleProvinceClick = () => {
@@ -36,21 +36,21 @@ const ServiceLocation = ({ formData, handleChange, errors }: any) => {
   };
 
   //  Fetch districts on click
-  const handleDistrictClick = () => {
-    if (!formData.serviceProvince) return;
+const handleDistrictClick = () => {
+  if (!formData.provinceKey) return;
 
-    if ((!districts || districts.length === 0) && !districtLoading) {
-      refetchDistricts();
-    }
-    if (districtError) {
-      refetchDistricts();
-    }
-  };
+  if ((!districts || districts.length === 0) && !districtLoading) {
+    refetchDistricts();
+  }
+  if (districtError) {
+    refetchDistricts();
+  }
+};
 
   //  Reset district when province changes
   const handleProvinceChange = (value: string) => {
-    handleChange("serviceProvince", value);
-    handleChange("serviceDistrict", "");
+    handleChange("provinceKey", value);   // ✅ FIXED
+    handleChange("districtKey", "");      // reset district
   };
 
   // Country options
@@ -87,7 +87,7 @@ const ServiceLocation = ({ formData, handleChange, errors }: any) => {
 
   //  District options
   const renderDistrictOptions = () => {
-    if (!formData.serviceProvince) {
+    if (!formData.provinceKey) {
       return <option value="">Select province first</option>;
     }
     if (districtLoading) return <option value="">Loading...</option>;
@@ -155,7 +155,7 @@ const ServiceLocation = ({ formData, handleChange, errors }: any) => {
         <select
           className="form-select form-select-sm"
           onClick={handleDistrictClick}
-          disabled={districtLoading || !formData.serviceProvince}
+          disabled={districtLoading || !formData.provinceKey}
         >
           <option value="">Select</option>
           {renderDistrictOptions()}
