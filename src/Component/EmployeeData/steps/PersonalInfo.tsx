@@ -20,7 +20,7 @@ const PersonalInfo = ({ formData, handleChange, errors }: any) => {
         onChange={(e: any) => handleChange("title", e.target.value)}
       >
         <select className="form-select form-select-sm">
-           <option value="">Select</option>
+          <option value="">Select</option>
           <option value="MR">Mr</option>
           <option value="MS">Ms</option>
           <option value="MRS">Mrs</option>
@@ -58,6 +58,15 @@ const PersonalInfo = ({ formData, handleChange, errors }: any) => {
         onChange={(e: any) => handleChange("lastName", e.target.value)}
       >
         <input className="form-control form-control-sm" />
+      </Field>
+
+      <Field
+        label="Date of Birth"
+        value={formData.dateOfBirth}
+        error={errors.dateOfBirth}
+        onChange={(e: any) => handleChange("dateOfBirth", e.target.value)}
+      >
+        <input type="date" className="form-control form-control-sm" />
       </Field>
 
       <Field

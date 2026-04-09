@@ -45,6 +45,8 @@ const Employment = ({ formData, handleChange, errors }: any) => {
       );
     });
   };
+  console.log("Education Levels:", educationLevels);
+
 
   return (
     <>
@@ -77,16 +79,20 @@ const Employment = ({ formData, handleChange, errors }: any) => {
           onChange={(e) => handleChange("position", e.target.value)}
         />
       </Field>
+
       <Field
         label="Education Level"
         value={formData.educationLevelId}
         error={errors.educationLevelId}
+        onChange={(e: any) =>
+            handleChange("educationLevelId", String(e.target.value))
+          }
       >
         <select
           className="form-select form-select-sm"
           value={formData.educationLevelId || ""}
           onChange={(e) =>
-            handleChange("educationLevelId", e.target.value)
+            handleChange("educationLevelId", String(e.target.value))
           }
           disabled={educationLoading}
         >
@@ -105,7 +111,7 @@ const Employment = ({ formData, handleChange, errors }: any) => {
         </select>
       </Field>
       <Field label="Prior Experience" value={formData.priorExperience} error={errors.priorExperience}
-        onChange={(e: any) => handleChange("Prior Experience", e.target.value)}>
+        onChange={(e: any) => handleChange("priorExperience", e.target.value)}>
         <input className="form-control form-control-sm" />
       </Field>
     </>

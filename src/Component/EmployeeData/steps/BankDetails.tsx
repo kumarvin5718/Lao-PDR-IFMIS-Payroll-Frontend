@@ -103,10 +103,10 @@ const BankDetails = ({ formData, handleChange, errors }: any) => {
       {/*  Branch Dropdown */}
       <Field
         label="Branch"
-        value={formData.accountNumber}
-        error={errors.accountNumber}
+        value={formData.branch}
+        error={errors.branch}
         onChange={(e: any) =>
-          handleChange("accountNumber", e.target.value)
+          handleChange("branch", e.target.value)
         }
       >
         <select
