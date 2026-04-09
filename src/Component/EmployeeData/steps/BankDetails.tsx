@@ -1,24 +1,133 @@
 import Field from "../Field";
 import "../../../style/Employee.css";
+import { useBankBranch } from "../../../hooks/EmployeeData/useBankBranch";
+import { useBank } from "../../../hooks/EmployeeData/useBank";
+
 const BankDetails = ({ formData, handleChange, errors }: any) => {
+
+  //  Bank API
+  const {
+    data: banks,
+    isLoading: bankLoading,
+    isError: bankError,
+    refetch: refetchBanks,
+  } = useBank(false);
+
+  // Branch API (depends on bankId)
+  const {
+    data: bankBranches,
+    isLoading: bankBranchLoading,
+    isError: bankBranchError,
+    refetch: refetchBankBranches,
+  } = useBankBranch(formData.bank, false);
+
+  //  Load banks on click
+  const handleBankClick = () => {
+    if ((!banks || banks.length === 0) && !bankLoading) {
+      refetchBanks();
+    }
+    if (bankError) {
+      refetchBanks();
+    }
+  };
+
+  //  Load branches on click
+  const handleBankBranchClick = () => {
+    if (!formData.bank) return;
+
+    if ((!bankBranches || bankBranches.length === 0) && !bankBranchLoading) {
+      refetchBankBranches();
+    }
+    if (bankBranchError) {
+      refetchBankBranches();
+    }
+  };
+
+  //  When bank changes → reset branch
+  const handleBankChange = (value: string) => {
+    handleChange("bank", value);
+    handleChange("branch", "");
+  };
+
+  //  Bank Options
+  const renderBankOptions = () => {
+    if (bankLoading) return <option value="">Loading...</option>;
+    if (bankError) return <option value="">Failed to load</option>;
+    if (!Array.isArray(banks) || banks.length === 0) return null;
+
+    return banks.map((item: any) => (
+      <option key={item.id} value={item.id}>
+        {item.bankName}
+      </option>
+    ));
+  };
+
+  //  Branch Options (filtered automatically by API using bankId)
+  const renderBankBranchOptions = () => {
+    if (!formData.bank) {
+      return <option value="">Select bank first</option>;
+    }
+
+    if (bankBranchLoading) return <option value="">Loading...</option>;
+    if (bankBranchError) return <option value="">Failed to load</option>;
+    if (!Array.isArray(bankBranches) || bankBranches.length === 0) {
+      return <option value="">No branches found</option>;
+    }
+
+    return bankBranches.map((item: any) => (
+      <option key={item.id} value={item.id}>
+        {item.branchName}
+      </option>
+    ));
+  };
+
   return (
     <>
-      <Field label="Bank Name" value={formData.bankName} error={errors.bankName}
-        onChange={(e: any) => handleChange("bankName", e.target.value)}>
-        <select className="form-select form-select-sm">
+      {/*  Bank Dropdown */}
+      <Field
+        label="Bank Name"
+        value={formData.bank}
+        error={errors.bank}
+        onChange={(e: any) => handleBankChange(e.target.value)}
+      >
+        <select
+          className="form-select form-select-sm"
+          onClick={handleBankClick}
+          disabled={bankLoading}
+        >
           <option value="">Select</option>
-          <option>BIC Bank Laos</option>
-          <option>APB</option>
+          {renderBankOptions()}
         </select>
       </Field>
 
-      <Field label="Branch" value={formData.branch} error={errors.branch}
-        onChange={(e: any) => handleChange("branch", e.target.value)}>
-        <input className="form-control form-control-sm" />
+      {/*  Branch Dropdown */}
+      <Field
+        label="Branch"
+        value={formData.branch}
+        error={errors.branch}
+        onChange={(e: any) =>
+          handleChange("branch", e.target.value)
+        }
+      >
+        <select
+          className="form-select form-select-sm"
+          onClick={handleBankBranchClick}
+          disabled={bankBranchLoading || !formData.bank}
+        >
+          <option value="">Select</option>
+          {renderBankBranchOptions()}
+        </select>
       </Field>
 
-      <Field label="Account No" value={formData.accountNo} error={errors.accountNo}
-        onChange={(e: any) => handleChange("accountNo", e.target.value)}>
+      {/*  Account Number */}
+      <Field
+        label="Account No"
+        value={formData.accountNo}
+        error={errors.accountNo}
+        onChange={(e: any) =>
+          handleChange("accountNo", e.target.value)
+        }
+      >
         <input className="form-control form-control-sm" />
       </Field>
     </>
